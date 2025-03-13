@@ -1,6 +1,5 @@
 # Use Flutter base image
-FROM ghcr.io/flutter/flutter:3.16.4 AS build
-
+FROM cirrusci/flutter:latest AS build
 
 # Set working directory
 WORKDIR /app

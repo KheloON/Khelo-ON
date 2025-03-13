@@ -4,24 +4,24 @@ steps:
     args:
       - "build"
       - "-t"
-      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo/kheloon-app:latest"
       - "./KheloON_App"
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "push"
-      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo/kheloon-app:latest"
 
   # Build and push React web app container
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "build"
       - "-t"
-      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo/kheloon-web:latest"
       - "./KheloON_WebAPP/react"
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "push"
-      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo/kheloon-web:latest"
 
   # Deploy Flutter app to Cloud Run
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
