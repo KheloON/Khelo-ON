@@ -1,5 +1,5 @@
 # Use Flutter base image
-FROM cirrusci/flutter:3.13.0 AS build
+FROM cirrusci/flutter:beta AS build
 
 
 # Set working directory
