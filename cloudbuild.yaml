@@ -1,0 +1,50 @@
+steps:
+  # Build and push Flutter app container
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+      - "./KheloON_App"
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+
+  # Build and push React web app container
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+      - "./KheloON_WebAPP/react"
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "us-central1-docker.pkg.dev/kheloon/kheloon-repo"
+
+  # Deploy Flutter app to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "kheloon-app"
+      - "--image=us-central1-docker.pkg.dev/kheloon/kheloon-repo/kheloon-app:latest"
+      - "--region=us-central1"
+      - "--platform=managed"
+      - "--allow-unauthenticated"
+
+  # Deploy React web app to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "kheloon-web"
+      - "--image=us-central1-docker.pkg.dev/kheloon/kheloon-repo/kheloon-web:latest"
+      - "--region=us-central1"
+      - "--platform=managed"
+      - "--allow-unauthenticated"
+
+timeout: 900s
