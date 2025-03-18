@@ -1,0 +1,66 @@
+buildscript {
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.0-alpha13'
+
+    }
+}
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'dev.flutter.flutter-gradle-plugin' // Must be applied after other plugins
+}
+
+dependencies {
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:33.9.0')
+
+    // Firebase Analytics
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Health Connect API
+    implementation "androidx.health.connect:connect-client:1.1.0-alpha11"
+
+    implementation 'com.google.android.material:material:1.9.0'
+
+    // Add other Firebase dependencies here if needed
+}
+
+android {
+    namespace "com.company.athleticon" // Corrected
+
+    compileSdk 35 // Ensure you set a specific version instead of `flutter.compileSdkVersion`
+    ndkVersion "25.1.8937393" // Check your Flutter version's NDK requirement
+
+    defaultConfig {
+        applicationId "com.company.athleticon"
+        minSdkVersion 26 // Removed the duplicated one
+        targetSdkVersion 34 // Ensure it's explicitly defined
+        versionCode 1 // Set manually or get from Flutter if configured
+        versionName "1.0"
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false // Change as per requirement
+            shrinkResources false
+            // Ensure you have a proper signing config
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source "../.."
+}
