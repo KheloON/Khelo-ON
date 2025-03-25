@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home_screen.dart';
-import 'map_screen.dart';
+import 'food_detection_screen.dart';
+// import 'map_screen.dart';
 import 'health_screen.dart';
 import 'leaderboard_screen.dart';
+import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,9 +20,10 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const MapScreen(),
+    const FoodDetection(),
     const HealthScreen(),
     const LeaderboardScreen(),
+    const ProfileScreen(),
     Container(), // Placeholder for profile screen
   ];
 
