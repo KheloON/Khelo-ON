@@ -72,6 +72,10 @@ dependencies:
   curved_navigation_bar:
   flutter_launcher_icons:
   flutter_rating_bar:
+  flutter_animate: 
+  cached_network_image: 
+  shimmer: 
+  url_launcher:
 
 flutter_icons:
   android: true
