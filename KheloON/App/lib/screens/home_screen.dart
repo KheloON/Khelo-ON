@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,20 +8,29 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _showQuote = false;
+  int _quoteIndex = 0;
+  late Timer _quoteTimer;
+
+  final List<String> _motivationalQuotes = [
+    'Every mile is a challenge conquered.',
+    'Sweat is just fat crying.',
+    'Push your limits, break your boundaries.',
+    'Champions are made when no one is watching.',
+    'The body achieves what the mind believes.',
+  ];
 
   final List<String> _activityImages = [
-  'lib/assets/images/squad_run1.jpg',
-  'lib/assets/images/squad_run2.jpg',
-  'lib/assets/images/squad_run3.jpg',
-  'lib/assets/images/squad_run4.jpg',
-];
+    'lib/assets/images/squad_run1.png',
+    'lib/assets/images/squad_run2.png',
+    'lib/assets/images/squad_run3.png',
+    'lib/assets/images/squad_run4.png',
+  ];
 
   final List<YouTubeVideo> _recommendedVideos = [
     YouTubeVideo(
@@ -44,17 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  final List<String> _motivationalQuotes = [
-    'Every mile is a challenge conquered.',
-    'Sweat is just fat crying.',
-    'Push your limits, break your boundaries.',
-    'Champions are made when no one is watching.'
-  ];
-
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    _startQuoteTimer();
   }
 
   void _onScroll() {
@@ -65,6 +68,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _startQuoteTimer() {
+    _quoteTimer = Timer.periodic(Duration(seconds: 4), (timer) {
+      if (_showQuote) {
+        setState(() {
+          _quoteIndex = (_quoteIndex + 1) % _motivationalQuotes.length;
+        });
+      }
+    });
+  }
+
   Future<void> _launchVideo(String url) async {
     final Uri videoUri = Uri.parse(url);
     if (!await launchUrl(videoUri, mode: LaunchMode.externalApplication)) {
@@ -73,6 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
         SnackBar(content: Text('Could not launch $url')),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _quoteTimer.cancel();
+    super.dispose();
   }
 
   @override
@@ -87,27 +107,65 @@ class _HomeScreenState extends State<HomeScreen> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Squad Activities', 
+              title: Text(
+                'Athlete Support',
                 style: TextStyle(
-                  color: Colors.white, 
+                  color: Colors.white,
                   shadows: [
                     Shadow(
                       blurRadius: 10.0,
                       color: Colors.black87,
-                      offset: Offset(2.0, 2.0)
-                    )
-                  ]
-                )
+                      offset: Offset(2.0, 2.0),
+                    ),
+                  ],
+                ),
               ),
-              background: Image.network(
-                'https://example.com/sports_background.jpg',
+              background: Image.asset(
+                'lib/assets/images/background_image.png',
                 fit: BoxFit.cover,
               ),
             ),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              // Activity Gallery
+              SizedBox(height: 20),
+
+              // Motivational Quote Box (Fixed Size)
+              if (_showQuote)
+                Center(
+                  child: Container(
+                    width: 300,
+                    height: 80,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4,
+                          spreadRadius: 1,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        _motivationalQuotes[_quoteIndex],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepOrange[800],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+              SizedBox(height: 30),
+
+              // Activity Images
               SizedBox(
                 height: 250,
                 child: ListView.builder(
@@ -118,46 +176,55 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: CachedNetworkImage(
+                        child: Image.asset(
+                          _activityImages[index],
                           width: 200,
                           fit: BoxFit.cover,
-                          imageUrl: _activityImages[index],
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(color: Colors.white),
-                          ),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
                         ),
                       ),
                     );
                   },
                 ),
               ),
-              
-              // Animated Motivational Quote
-              if (_showQuote)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      _motivationalQuotes[0],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepOrange[800],
-                      ),
-                    ).animate(
-                      effects: [
-                        FadeEffect(duration: 500.ms),
-                        SlideEffect(begin: Offset(0, 0.2), end: Offset.zero)
-                      ]
-                    ),
-                  ),
-                ),
 
-              // Recommended YouTube Videos Section
+              SizedBox(height: 30),
+
+              // Additional Paragraphs (Scrollable Content)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'How Our App Helps Athletes',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange[900],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '🏃‍♂️ Our app helps athletes improve their performance with personalized training insights.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '💪 Get strength training and nutrition tips tailored to your needs.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '📊 Track your health metrics like steps, heart rate, and calories using Health Connect integration.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 30),
+
+              // Recommended Videos Section
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -181,66 +248,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           final video = _recommendedVideos[index];
                           return GestureDetector(
                             onTap: () => _launchVideo(video.videoUrl),
-                            child: Container(
-                              width: 250,
-                              margin: EdgeInsets.only(right: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    // ignore: deprecated_member_use
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
+                            child: CachedNetworkImage(
+                              imageUrl: video.thumbnailUrl,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(color: Colors.white),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                                    child: CachedNetworkImage(
-                                      height: 150,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                      imageUrl: video.thumbnailUrl,
-                                      placeholder: (context, url) => Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(color: Colors.white),
-                                      ),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          video.title,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          video.channelName,
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
                           );
                         },
@@ -249,17 +264,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+
+              SizedBox(height: 30),
             ]),
           ),
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
   }
 }
 
