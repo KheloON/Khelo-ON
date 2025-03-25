@@ -1187,10 +1187,10 @@
       "name": "athlete",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.6"
+      "languageVersion": "3.3"
     }
   ],
-  "generated": "2025-03-25T05:42:45.484556Z",
+  "generated": "2025-03-25T09:33:56.553258Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///C:/flutter",

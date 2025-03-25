@@ -6,40 +6,45 @@
     # Configure Git to trust the Flutter SDK directory
     RUN git config --global --add safe.directory /sdks/flutter
     
-    # Create a non-root user and update ownership of the Flutter SDK.
-    RUN useradd -ms /bin/bash flutteruser && \
-        sudo chown -R flutteruser:flutteruser /sdks/flutter
+    # Create a non-root user
+    RUN useradd -ms /bin/bash flutteruser 
     
-    # Switch to the non-root user.
-    USER flutteruser
+    # Ensure necessary directories exist before changing ownership
+    RUN mkdir -p /home/flutteruser/app /home/flutteruser/.pub-cache && \
+        chown -R flutteruser:flutteruser /home/flutteruser/app /home/flutteruser/.pub-cache /sdks/flutter
     
-    # Set the working directory.
+    # Set working directory as root (before switching users)
     WORKDIR /home/flutteruser/app
     
-    # Copy all project files into the container.
-    COPY . .
+    # Copy project files before switching users
+    COPY --chown=flutteruser:flutteruser . .
     
-    # (Removed: RUN flutter channel stable)
+    # Switch to non-root user
+    USER flutteruser
     
-    # Upgrade Flutter to update Dart (this will switch to the latest stable if needed)
-    # RUN flutter upgrade
+    # Debugging: Verify Flutter works
+    RUN flutter doctor
     
-    # Clean previous builds.
+    # Clean previous builds
     RUN flutter clean
     
-    # Fetch dependencies with the updated Dart SDK.
+    # Fetch dependencies
     RUN flutter pub get
     
-    # Build the Flutter app for Android (release APK).
+    # Ensure Gradle wrapper is updated to latest version
+    RUN cd android && ./gradlew wrapper --gradle-version 8.0
+    
+    # Build the Flutter app for Android (release APK)
     RUN flutter build apk --release
     
     # -------------------------
     # 2) Final Stage: Artifact Container
     # -------------------------
     FROM alpine:latest
+    
     WORKDIR /app
     
-    # Copy the release APK from the builder stage.
+    # Copy the release APK from the builder stage
     COPY --from=build-env /home/flutteruser/app/build/app/outputs/flutter-apk/app-release.apk .
     
     # When the container runs, display where the APK is located.
