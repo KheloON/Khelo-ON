@@ -17,11 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _showQuote = false;
 
   final List<String> _activityImages = [
-    'https://example.com/squad_run1.jpg',
-    'https://example.com/squad_run2.jpg',
-    'https://example.com/squad_run3.jpg',
-    'https://example.com/squad_run4.jpg',
-  ];
+  'lib/assets/images/squad_run1.jpg',
+  'lib/assets/images/squad_run2.jpg',
+  'lib/assets/images/squad_run3.jpg',
+  'lib/assets/images/squad_run4.jpg',
+];
 
   final List<YouTubeVideo> _recommendedVideos = [
     YouTubeVideo(
