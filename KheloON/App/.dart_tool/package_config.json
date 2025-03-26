@@ -416,6 +416,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "flutter_staggered_animations",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_animations-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_svg-2.0.17",
       "packageUri": "lib/",
@@ -1190,7 +1196,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2025-03-25T09:33:56.553258Z",
+  "generated": "2025-03-26T10:58:37.486428Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///C:/flutter",

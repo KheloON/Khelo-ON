@@ -8,7 +8,6 @@ class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _CreateAccountScreenState createState() => _CreateAccountScreenState();
 }
 
@@ -23,7 +22,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> _createAccount() async {
     setState(() => isLoading = true);
-
     try {
       final UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -31,7 +29,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       );
 
       final String userId = userCredential.user!.uid;
-
       await _firestore.collection('users').doc(userId).set({
         'name': nameController.text.trim(),
         'email': emailController.text.trim(),
@@ -41,11 +38,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Account created successfully!"), backgroundColor: Colors.green),
+        SnackBar(content: Text("Account created successfully!"), backgroundColor: Colors.orange),
       );
-
+      
       await Future.delayed(Duration(seconds: 2));
-      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
     } catch (error) {
       if (!mounted) return;
@@ -73,11 +69,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 Container(
                   padding: EdgeInsets.all(25),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.orange,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black26, blurRadius: 5, spreadRadius: 3),
-                    ],
                   ),
                   child: Form(
                     key: formKey,
@@ -86,9 +79,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             labelText: 'Full Name',
                             border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: Icon(Icons.person, color: Colors.orange),
                           ),
                           validator: (value) => value!.isEmpty ? 'Please enter your full name' : null,
                         ),
@@ -96,9 +91,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             labelText: 'Email',
                             border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.email),
+                            prefixIcon: Icon(Icons.email, color: Colors.orange),
                           ),
                           validator: (value) => value!.isEmpty ? 'Please enter your email' : null,
                         ),
@@ -107,9 +104,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           controller: passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             labelText: 'Password',
                             border: OutlineInputBorder(),
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: Icon(Icons.lock, color: Colors.orange),
                           ),
                           validator: (value) => value!.isEmpty ? 'Please enter your password' : null,
                         ),
@@ -123,8 +122,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue[700],
-                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.orange,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                                   textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -140,7 +139,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onPressed: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => LoginScreen()),
                   ),
-                  child: Text('Already have an account? Log in', style: TextStyle(fontSize: 16, color: Colors.blue)),
+                  child: Text('Already have an account? Log in', style: TextStyle(fontSize: 16, color: Colors.orange)),
                 ),
               ],
             ),

@@ -62,6 +62,7 @@ dependencies:
   camera:
   device_info_plus:
   animations:
+  flutter_staggered_animations:
   animated_text_kit:
   permission_handler:
   flutter_dotenv:
@@ -80,9 +81,9 @@ dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "lib/assets/app_icon.png"
+  image_path: "lib/assets/app_icon.jpg"
   adaptive_icon_background: "#ffffff" # (Optional for Android)
-  adaptive_icon_foreground: "lib/assets/app_icon_foreground.png" # (Optional for Android)
+  adaptive_icon_foreground: "lib/assets/app_icon.jpg" # (Optional for Android)
   
 
   
