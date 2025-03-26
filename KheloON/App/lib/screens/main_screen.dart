@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home_screen.dart';
 import 'food_detection_screen.dart';
-// import 'map_screen.dart';
 import 'health_screen.dart';
-import 'leaderboard_screen.dart';
+import 'dashboard_screen.dart';
 import 'profile_screen.dart';
+import 'chatbot_screen.dart'; // Import your chatbot screen
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _MainScreenState createState() => _MainScreenState();
 }
 
@@ -22,21 +21,54 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const FoodDetection(),
     const HealthScreen(),
-    const LeaderboardScreen(),
+    const DashboardScreen(),
     const ProfileScreen(),
-    Container(), // Placeholder for profile screen
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: _currentIndex,
+            children: _screens,
+          ),
+          // Chatbot Widget (Peeking from the right)
+          Positioned(
+            right: 0, // Adjust to peek slightly
+            bottom: 90, // Above the bottom navigation bar
+            child: GestureDetector(
+              onTap: () {
+                _showChatbotPopup(context);
+              },
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 6,
+                    ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    'lib/assets/Chatbot_len.gif', // Ensure it's in your assets folder
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: Colors.blueAccent,
+        backgroundColor: Colors.white,
+        color: const Color(0xFFFF5722),
         animationDuration: const Duration(milliseconds: 400),
         items: const [
           Icon(Icons.home, size: 30, color: Colors.white),
@@ -52,6 +84,36 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
       ),
+    );
+  }
+
+  // Function to show chatbot popup
+  void _showChatbotPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: const Text("AI Chatbot", textAlign: TextAlign.center),
+          content: const Text("Would you like to chat with the assistant?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ChatbotScreen()),
+                );
+              },
+              child: const Text("Chat Now"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,0 +1,741 @@
+import 'package:flutter/material.dart';
+import 'Dashboardscreens/search_screen.dart';
+import 'Dashboardscreens/my_calories_screen.dart';
+import 'Dashboardscreens/plan_macros_screen.dart';
+// import 'Dashboardscreens/water_tracking_screen.dart';
+// import 'Dashboardscreens/weekly_activity_screen.dart';
+// import 'Dashboardscreens/community_screen.dart';
+
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  final ScrollController _scrollController = ScrollController();
+  
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    
+    // Simulate loading data
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _animationController.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _navigateToScreen(BuildContext context, Widget screen) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => screen,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = const Offset(1.0, 0.0);
+          var end = Offset.zero;
+          var curve = Curves.easeInOutCubic;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: CustomScrollView(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: [
+                  // Background gradient
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          const Color(0xFFFF5722),
+                          const Color(0xFFFF8A65).withOpacity(0.8),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Profile image and name
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 60,
+                    left: 20,
+                    right: 20,
+                    child: Row(
+                      children: [
+                        AnimatedBuilder(
+                          animation: _animationController,
+                          builder: (context, child) {
+                            return Transform.scale(
+                              scale: Tween<double>(begin: 0.0, end: 1.0)
+                                  .animate(CurvedAnimation(
+                                    parent: _animationController,
+                                    curve: const Interval(0.0, 0.5, curve: Curves.elasticOut),
+                                  ))
+                                  .value,
+                              child: child,
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: const CircleAvatar(
+                              radius: 35,
+                              backgroundImage: NetworkImage(
+                                'https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80',
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 15),
+                        AnimatedBuilder(
+                          animation: _animationController,
+                          builder: (context, child) {
+                            return Opacity(
+                              opacity: Tween<double>(begin: 0.0, end: 1.0)
+                                  .animate(CurvedAnimation(
+                                    parent: _animationController,
+                                    curve: const Interval(0.3, 0.8, curve: Curves.easeOut),
+                                  ))
+                                  .value,
+                              child: Transform.translate(
+                                offset: Offset(
+                                  Tween<double>(begin: 50.0, end: 0.0)
+                                      .animate(CurvedAnimation(
+                                        parent: _animationController,
+                                        curve: const Interval(0.3, 0.8, curve: Curves.easeOut),
+                                      ))
+                                      .value,
+                                  0,
+                                ),
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Welcome back,',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              const Text(
+                                'Gaurav Chaudhary',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(
+                      0,
+                      Tween<double>(begin: 50, end: 0)
+                          .animate(CurvedAnimation(
+                            parent: _animationController,
+                            curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
+                          ))
+                          .value,
+                    ),
+                    child: Opacity(
+                      opacity: Tween<double>(begin: 0, end: 1)
+                          .animate(CurvedAnimation(
+                            parent: _animationController,
+                            curve: const Interval(0.3, 1.0),
+                          ))
+                          .value,
+                      child: child,
+                    ),
+                  );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildDailyProgress(),
+                    const SizedBox(height: 25),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Features',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    _buildFeatureGrid(),
+                    const SizedBox(height: 25),
+                    _buildRecentActivity(),
+                    const SizedBox(height: 25),
+                    _buildTips(),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+              ),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDailyProgress() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Today\'s Progress',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[800],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFF5722).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Text(
+                  'March 28, 2025',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFFFF5722),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildProgressItem(
+                icon: Icons.local_fire_department,
+                value: '1,248',
+                label: 'Calories',
+                progress: 0.7,
+                color: const Color(0xFFFF5722),
+              ),
+              _buildProgressItem(
+                icon: Icons.water_drop,
+                value: '4/8',
+                label: 'Water',
+                progress: 0.5,
+                color: Colors.blue,
+              ),
+              _buildProgressItem(
+                icon: Icons.directions_walk,
+                value: '6,540',
+                label: 'Steps',
+                progress: 0.65,
+                color: Colors.green,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressItem({
+    required IconData icon,
+    required String value,
+    required String label,
+    required double progress,
+    required Color color,
+  }) {
+    return Column(
+      children: [
+        SizedBox(
+          width: 60,
+          height: 60,
+          child: Stack(
+            children: [
+              Center(
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CircularProgressIndicator(
+                    value: progress,
+                    strokeWidth: 5,
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation<Color>(color),
+                  ),
+                ),
+              ),
+              Center(
+                child: Icon(
+                  icon,
+                  size: 24,
+                  color: color,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[600],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeatureGrid() {
+    final features = [
+      {
+        'title': 'Search',
+        'icon': Icons.search,
+        'screen': const SearchScreen(),
+        'color': Colors.purple,
+      },
+      {
+        'title': 'My Calories',
+        'icon': Icons.local_fire_department,
+        'screen': const MyCaloriesScreen(),
+        'color': Colors.orange,
+      },
+      {
+        'title': 'Plan Macros',
+        'icon': Icons.pie_chart,
+        'screen': const PlanMacrosScreen(),
+        'color': Colors.green,
+      },
+      {
+        'title': 'Water Tracking',
+        'icon': Icons.water_drop,
+        // 'screen': const WaterTrackingScreen(),
+        'color': Colors.blue,
+      },
+      {
+        'title': 'Weekly Activity',
+        'icon': Icons.bar_chart,
+        // 'screen': const WeeklyActivityScreen(),
+        'color': Colors.red,
+      },
+      {
+        'title': 'Community',
+        'icon': Icons.people,
+        // 'screen': const CommunityScreen(),
+        'color': Colors.teal,
+      },
+    ];
+
+    return GridView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.4,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+      ),
+      itemCount: features.length,
+      itemBuilder: (context, index) {
+        final feature = features[index];
+        return GestureDetector(
+          onTap: () => _navigateToScreen(context, feature['screen'] as Widget),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: (feature['color'] as Color).withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    feature['icon'] as IconData,
+                    color: feature['color'] as Color,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  feature['title'] as String,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRecentActivity() {
+    final activities = [
+      {
+        'title': 'Morning Run',
+        'time': '07:30 AM',
+        'calories': '320',
+        'icon': Icons.directions_run,
+      },
+      {
+        'title': 'Breakfast',
+        'time': '08:15 AM',
+        'calories': '450',
+        'icon': Icons.restaurant,
+      },
+      {
+        'title': 'Gym Workout',
+        'time': '06:00 PM',
+        'calories': '580',
+        'icon': Icons.fitness_center,
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Recent Activity',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[800],
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'See All',
+                  style: TextStyle(
+                    color: Color(0xFFFF5722),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: activities.length,
+          itemBuilder: (context, index) {
+            final activity = activities[index];
+            return Container(
+              margin: const EdgeInsets.only(bottom: 15),
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFF5722).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      activity['icon'] as IconData,
+                      color: const Color(0xFFFF5722),
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          activity['title'] as String,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          activity['time'] as String,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${activity['calories']} cal',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFF5722),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Burned',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTips() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Health Tips',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[800],
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: 180,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              _buildTipCard(
+                title: 'Hydration Importance',
+                description: 'Drinking enough water is crucial for your metabolism and overall health.',
+                color: Colors.blue,
+                icon: Icons.water_drop,
+              ),
+              _buildTipCard(
+                title: 'Protein Intake',
+                description: 'Ensure you get enough protein to support muscle recovery and growth.',
+                color: Colors.green,
+                icon: Icons.egg_alt,
+              ),
+              _buildTipCard(
+                title: 'Sleep Quality',
+                description: 'Good sleep is essential for recovery and maintaining a healthy weight.',
+                color: Colors.purple,
+                icon: Icons.nightlight,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTipCard({
+    required String title,
+    required String description,
+    required Color color,
+    required IconData icon,
+  }) {
+    return Container(
+      width: 250,
+      margin: const EdgeInsets.only(right: 15),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            color.withOpacity(0.7),
+            color.withOpacity(0.9),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+          const SizedBox(height: 15),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              height: 1.4,
+            ),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
