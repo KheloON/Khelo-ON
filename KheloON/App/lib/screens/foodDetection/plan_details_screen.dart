@@ -25,6 +25,7 @@ class PlanDetailsScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+             // ignore: deprecated_member_use
             colors: [primaryColor.withOpacity(0.1), Colors.white],
           ),
         ),

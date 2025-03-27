@@ -1,7 +1,13 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 buildscript {
+    ext.kotlin_version = '1.9.0'
     dependencies {
         classpath 'com.android.tools.build:gradle:8.3.0-alpha13'
-
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
+         classpath 'com.android.tools.build:gradle:4.1.0' 
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" 
     }
 }
 
@@ -20,17 +26,28 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     // Health Connect API
-    implementation "androidx.health.connect:connect-client:1.1.0-alpha11"
+    implementation 'androidx.health.connect:connect-client:1.0.0-beta04'
 
     implementation 'com.google.android.material:material:1.9.0'
 
+    implementation "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.8.0"
+
     // Add other Firebase dependencies here if needed
+     
+}
+
+// ✅ Use Groovy-style variable declarations
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 android {
     namespace "com.company.athleticon" // Corrected
 
-    compileSdk 35 // Ensure you set a specific version instead of `flutter.compileSdkVersion`
+    compileSdk 35
+ // Ensure you set a specific version instead of `flutter.compileSdkVersion`
     ndkVersion "25.1.8937393" // Check your Flutter version's NDK requirement
 
     defaultConfig {
@@ -51,12 +68,18 @@ android {
         jvmTarget = '1.8'
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties["keyAlias"]
+            keyPassword keystoreProperties["keyPassword"]
+            storeFile keystoreProperties["storeFile"] ? file(keystoreProperties["storeFile"]) : null
+            storePassword keystoreProperties["storePassword"]
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false // Change as per requirement
-            shrinkResources false
-            // Ensure you have a proper signing config
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }

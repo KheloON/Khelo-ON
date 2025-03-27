@@ -1,0 +1,1 @@
+ C:\\Users\\Mayank\ Singh\ Tomar\\OneDrive\\Desktop\\Sem-3\\Khelo-ON\\KheloON\\App\\.dart_tool\\flutter_build\\d6a1e03bd2666e85554f7f7ce46028ed\\native_assets.yaml: 
