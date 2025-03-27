@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
           // Chatbot Widget (Peeking from the right)
           Positioned(
             right: 0, // Adjust to peek slightly
-            bottom: 90, // Above the bottom navigation bar
+            bottom: 10, // Above the bottom navigation bar
             child: GestureDetector(
               onTap: () {
                 _showChatbotPopup(context);

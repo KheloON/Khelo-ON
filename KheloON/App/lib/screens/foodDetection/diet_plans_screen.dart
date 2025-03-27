@@ -25,6 +25,7 @@ class DietPlansScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+            // ignore: deprecated_member_use
             colors: [primaryColor.withOpacity(0.1), Colors.white],
           ),
         ),
@@ -97,6 +98,7 @@ class DietPlansScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
+                 // ignore: deprecated_member_use
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),

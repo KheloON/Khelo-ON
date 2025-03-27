@@ -184,6 +184,8 @@ class _FoodDetectionState extends State<FoodDetection> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                           _buildInstructionSection(),
+                           
                           if (_imageFile != null) ...[
                             _buildImageContainer(),
                             const SizedBox(height: 20),
@@ -214,6 +216,52 @@ class _FoodDetectionState extends State<FoodDetection> {
         ],
       ),
     );
+  }
+
+  // New method to build instruction section
+  Widget _buildInstructionSection() {
+    return _imageFile == null 
+      ? Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: primaryColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            children: [
+              Icon(
+                Icons.info_outline,
+                color: primaryColor,
+                size: 50,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'How to Use Food Analyzer',
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'To know about your food, simply click "Take Photo" or "Upload Image" below. Then, select the type of analysis you want:\n\n'
+                '• Detect Allergens\n'
+                '• Get Detailed Nutrient Info\n'
+                '• Learn About Food\n'
+                '• Discover Fun Facts\n'
+                '• Generate Dish Recipes',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        )
+      : const SizedBox.shrink();
   }
 
   Widget _buildImageContainer() {
