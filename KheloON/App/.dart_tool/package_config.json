@@ -27,13 +27,13 @@
     },
     {
       "name": "archive",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/archive-4.0.4",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/archive-4.0.5",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "args",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.6.0",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.7.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -75,19 +75,19 @@
     },
     {
       "name": "camera_android_camerax",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/camera_android_camerax-0.6.14",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/camera_android_camerax-0.6.14+1",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "camera_avfoundation",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/camera_avfoundation-0.9.18+8",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/camera_avfoundation-0.9.18+11",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "camera_platform_interface",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/camera_platform_interface-2.9.0",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/camera_platform_interface-2.10.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -165,9 +165,9 @@
     },
     {
       "name": "csslib",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/csslib-0.17.3",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/csslib-1.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.1"
     },
     {
       "name": "cupertino_icons",
@@ -327,9 +327,9 @@
     },
     {
       "name": "flutter_html",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_html-3.0.0-beta.2",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_html-3.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_inappwebview",
@@ -393,7 +393,7 @@
     },
     {
       "name": "flutter_map",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_map-8.1.0",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_map-8.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
@@ -459,21 +459,21 @@
     },
     {
       "name": "google_maps_flutter",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter-2.10.1",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter-2.12.0",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "google_maps_flutter_android",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter_android-2.14.13",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter_android-2.16.0",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "google_maps_flutter_ios",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter_ios-2.13.2",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter_ios-2.15.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "google_maps_flutter_platform_interface",
@@ -483,25 +483,25 @@
     },
     {
       "name": "google_maps_flutter_web",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter_web-0.5.10+1",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_maps_flutter_web-0.5.12",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "google_sign_in",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-6.2.2",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-6.3.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.6"
     },
     {
       "name": "google_sign_in_android",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.35",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.2.0",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "google_sign_in_ios",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.8.0",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.8.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -513,15 +513,15 @@
     },
     {
       "name": "google_sign_in_web",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.4+3",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.4+4",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "googleapis",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/googleapis-13.2.0",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/googleapis-14.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "googleapis_auth",
@@ -537,15 +537,15 @@
     },
     {
       "name": "health",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/health-12.0.1",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/health-12.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "html",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/html-0.15.4",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/html-0.15.5",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.2"
     },
     {
       "name": "http",
@@ -561,7 +561,7 @@
     },
     {
       "name": "image",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.5.3",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.5.4",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -573,9 +573,9 @@
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.12+21",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.12+22",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "image_picker_for_web",
@@ -591,9 +591,9 @@
     },
     {
       "name": "image_picker_linux",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_linux-0.2.1+1",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_linux-0.2.1+2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "image_picker_macos",
@@ -879,9 +879,9 @@
     },
     {
       "name": "shared_preferences_android",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.6",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.8",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "shared_preferences_foundation",
@@ -1107,7 +1107,7 @@
     },
     {
       "name": "wakelock_plus",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/wakelock_plus-1.2.10",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/wakelock_plus-1.2.11",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -1131,9 +1131,9 @@
     },
     {
       "name": "webview_flutter_android",
-      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_android-4.3.2",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_android-4.3.4",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "webview_flutter_platform_interface",
@@ -1196,7 +1196,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2025-03-26T18:14:38.716115Z",
+  "generated": "2025-03-27T17:13:47.983902Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///C:/flutter",

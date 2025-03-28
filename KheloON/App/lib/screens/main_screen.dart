@@ -5,7 +5,7 @@ import 'food_detection_screen.dart';
 import 'health_screen.dart';
 import 'dashboard_screen.dart';
 import 'profile_screen.dart';
-import 'chatbot_screen.dart'; // Import your chatbot screen
+import 'chatbot_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,6 +16,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  Offset _chatbotPosition = const Offset(300, 500); // Initial position
 
   final List<Widget> _screens = [
     const HomeScreen(),
@@ -29,42 +30,40 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          IndexedStack(
-            index: _currentIndex,
-            children: _screens,
-          ),
-          // Chatbot Widget (Peeking from the right)
-          Positioned(
-            right: 0, // Adjust to peek slightly
-            bottom: 10, // Above the bottom navigation bar
-            child: GestureDetector(
-              onTap: () {
-                _showChatbotPopup(context);
-              },
-              child: Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 6,
-                    ),
-                  ],
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'lib/assets/Chatbot_len.gif', // Ensure it's in your assets folder
-                    fit: BoxFit.cover,
-                  ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          double maxX = constraints.maxWidth - 70; // Right bound (60px + padding)
+          double maxY = constraints.maxHeight - 100; // Bottom bound (above nav bar)
+
+          // Ensure chatbot doesn't go off-screen
+          double safeX = _chatbotPosition.dx.clamp(10, maxX);
+          double safeY = _chatbotPosition.dy.clamp(10, maxY);
+
+          return Stack(
+            children: [
+              IndexedStack(
+                index: _currentIndex,
+                children: _screens,
+              ),
+              Positioned(
+                left: safeX,
+                top: safeY,
+                child: Draggable(
+                  feedback: _chatbotIcon(),
+                  childWhenDragging: Container(),
+                  onDragEnd: (details) {
+                    setState(() {
+                      double newX = details.offset.dx.clamp(10, maxX);
+                      double newY = details.offset.dy.clamp(10, maxY);
+                      _chatbotPosition = Offset(newX, newY);
+                    });
+                  },
+                  child: _chatbotIcon(),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
@@ -87,7 +86,33 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  // Function to show chatbot popup
+  Widget _chatbotIcon() {
+    return GestureDetector(
+      onTap: () {
+        _showChatbotPopup(context);
+      },
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            'lib/assets/Chatbot_len.gif',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showChatbotPopup(BuildContext context) {
     showDialog(
       context: context,
