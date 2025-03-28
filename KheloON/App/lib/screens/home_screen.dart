@@ -226,8 +226,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                'Athlete Support',
+              'Hello Athletes',
+              
                 style: TextStyle(
+                  
                   color: Colors.white,
                   shadows: [
                     Shadow(
@@ -239,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
               ),
               background: Image.asset(
-                'lib/assets/images/background_image.png',
+                'lib/assets/home_img.png',
                 fit: BoxFit.cover,
               ),
             ),

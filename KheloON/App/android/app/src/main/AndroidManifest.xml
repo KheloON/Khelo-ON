@@ -1,16 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.company.athleticon">
 
+     <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     
-    <!-- Permissions for Health Connect -->
+    <!-- Storage Permissions (Only required for Android < 13) -->
+    <!-- Remove if targeting Android 13+ -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
+    <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permissions for Health Connect -->
     <uses-permission android:name="android.permission.health.CONNECT" />
 
-    <!-- Read permissions -->
+    <!-- Read Permissions for Health Connect -->
     <uses-permission android:name="android.permission.health.READ_STEPS"/>
     <uses-permission android:name="android.permission.health.READ_BLOOD_GLUCOSE"/>
     <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
@@ -19,7 +25,7 @@
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED"/>
     <uses-permission android:name="android.permission.health.READ_ACTIVE_TIME"/>
 
-    <!-- Write permissions -->
+    <!-- Write Permissions for Health Connect -->
     <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
     <uses-permission android:name="android.permission.health.WRITE_BLOOD_GLUCOSE"/>
     <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
@@ -29,8 +35,8 @@
     <uses-permission android:name="android.permission.health.WRITE_ACTIVE_TIME"/>
 
     <application
-        android:usesCleartextTraffic="true"
-        android:label="athlete"
+        android:usesCleartextTraffic="false"
+        android:label="Athlete"
         android:theme="@style/Theme.Athlete"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -47,8 +53,8 @@
 
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme"
-                />
+                android:resource="@style/NormalTheme"/>
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -58,11 +64,11 @@
         <!-- Meta-data for Flutter plugin -->
         <meta-data
             android:name="flutterEmbedding"
-            android:value="2" />
+            android:value="2"/>
 
     </application>
 
-    <!-- Queries to identify Health Connect -->
+    <!-- Queries to check for Health Connect availability -->
     <queries>
         <intent>
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
