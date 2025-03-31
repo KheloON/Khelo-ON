@@ -36,7 +36,7 @@ class HealthConnectService {
   }
 
   /// Fetch health data from the past 24 hours
-  static Future<List<HealthDataPoint>> fetchHealthData() async {
+  static Future<List<HealthDataPoint>> fetchHealthData({required DateTime startTime, required DateTime endTime}) async {
     try {
       DateTime now = DateTime.now();
       DateTime yesterday = now.subtract(const Duration(days: 1));

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'home_screen.dart';
 import 'food_detection_screen.dart';
-import 'health_screen.dart';
+import 'map_screen.dart';
 import 'dashboard_screen.dart';
 import 'profile_screen.dart';
 import 'chatbot_screen.dart';
@@ -20,8 +20,8 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
+     WalkingTracker(),
     const FoodDetection(),
-    const HealthScreen(),
     const DashboardScreen(),
     const ProfileScreen(),
   ];
@@ -72,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
         items: const [
           Icon(Icons.home, size: 30, color: Colors.white),
           Icon(Icons.map, size: 30, color: Colors.white),
-          Icon(Icons.favorite, size: 30, color: Colors.white),
+          Icon(Icons.food_bank, size: 30, color: Colors.white),
           Icon(Icons.leaderboard, size: 30, color: Colors.white),
           Icon(Icons.person, size: 30, color: Colors.white),
         ],

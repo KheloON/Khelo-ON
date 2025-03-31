@@ -49,7 +49,7 @@ class MyProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 15),
                     const Text(
-                      'Gaurav Chaudhary',
+                      'Mayank Singh',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -110,7 +110,7 @@ class MyProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               _buildInfoCard([
-                _buildInfoRow(Icons.email, 'Email', 'Gaurav123@gmail.com'),
+                _buildInfoRow(Icons.email, 'Email', 'ms921@gmail.com'),
                 _buildInfoRow(Icons.phone, 'Phone', '+91 958452021'),
                 _buildInfoRow(Icons.location_on, 'Address', '123 Srmcem Tiwariganj, Lucknow'),
               ]),

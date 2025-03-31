@@ -114,7 +114,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                         SizedBox(height: 20),
                         isLoading
-                            ? Lottie.asset('lib/assets/animations/loading.json', width: 100, height: 100)
+                            ? Lottie.asset('lib/assets/animations/running_man.json', width: 100, height: 100)
                             : ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState?.validate() ?? false) {

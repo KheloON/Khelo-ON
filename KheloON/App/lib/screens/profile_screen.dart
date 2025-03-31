@@ -192,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   children: [
                     const SizedBox(height: 10),
                     const Text(
-                      'Gaurav Chaudhary',
+                      'Alex',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
