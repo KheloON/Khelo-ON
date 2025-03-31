@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:health/health.dart';
 import 'Dashboardscreens/search_screen.dart';
 import 'Dashboardscreens/my_calories_screen.dart';
 import 'Dashboardscreens/plan_macros_screen.dart';
-// import 'Dashboardscreens/water_tracking_screen.dart';
-// import 'Dashboardscreens/weekly_activity_screen.dart';
-// import 'Dashboardscreens/community_screen.dart';
+// import 'health_screen.dart';
+import 'package:athlete/services/health_connect_service.dart';
+// import 'dart:convert';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -17,6 +18,21 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   late AnimationController _animationController;
   final ScrollController _scrollController = ScrollController();
   
+  // Health data variables
+  List<HealthDataPoint> healthData = [];
+  bool isLoading = true;
+  String errorMessage = '';
+  
+  // Daily totals
+  double totalCalories = 0.0;
+  double totalDistance = 0.0;
+  int totalSteps = 0;
+  
+  // Progress targets
+  final double _targetDistance = 10.0; // 10 km
+  final int _targetSteps = 10000;
+  final double _targetCalories = 2000.0;
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +40,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
+    
+    // Initialize health data
+    initializeHealth();
     
     // Simulate loading data
     Future.delayed(const Duration(milliseconds: 200), () {
@@ -54,6 +73,101 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         },
       ),
     );
+  }
+
+  // Initialize health data
+  Future<void> initializeHealth() async {
+    try {
+      setState(() {
+        isLoading = true;
+        errorMessage = '';
+      });
+      
+      // Configure health service
+      await HealthConnectService.configureHealth();
+
+      // Request permissions
+      bool permissionsGranted = await HealthConnectService.requestPermissions();
+
+      if (permissionsGranted) {
+        // Fetch health data
+        await fetchHealthData();
+      } else {
+        setState(() {
+          errorMessage = 'Health Connect permissions not granted';
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error initializing health data: $e';
+        isLoading = false;
+      });
+      debugPrint("Error initializing health: $e");
+    }
+  }
+
+  // Fetch health data
+  Future<void> fetchHealthData() async {
+    try {
+      // Get today's date range
+      final now = DateTime.now();
+      final startOfDay = DateTime(now.year, now.month, now.day);
+      
+      // Fetch health data for today
+      List<HealthDataPoint> data = await HealthConnectService.fetchHealthData(
+        startTime: startOfDay,
+        endTime: now,
+      );
+
+      if (mounted) {
+        // Calculate daily totals
+        calculateDailyTotals(data);
+        
+        setState(() {
+          healthData = data;
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error fetching health data: $e';
+        isLoading = false;
+      });
+      debugPrint("Error fetching health data: $e");
+    }
+  }
+
+  // Calculate daily totals from health data points
+  void calculateDailyTotals(List<HealthDataPoint> data) {
+    double calories = 0.0;
+    double distance = 0.0;
+    int steps = 0;
+    
+    // Group data by type and sum up values
+    for (var point in data) {
+      if (point.value is NumericHealthValue) {
+        final value = (point.value as NumericHealthValue).numericValue;
+        
+        if (point.type == HealthDataType.ACTIVE_ENERGY_BURNED) {
+          calories += value;
+        } else if (point.type == HealthDataType.DISTANCE_DELTA) {
+          distance += value;
+        } else if (point.type == HealthDataType.STEPS) {
+          steps += value.toInt();
+        }
+      }
+    }
+    
+    // Convert distance from meters to kilometers
+    distance = distance / 1000;
+    
+    // Update state variables
+    totalCalories = calories;
+    totalDistance = distance;
+    totalSteps = steps;
+    
+    debugPrint("Daily Totals - Calories: $totalCalories, Distance: $totalDistance km, Steps: $totalSteps");
   }
 
   @override
@@ -179,7 +293,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                               ),
                               const SizedBox(height: 5),
                               const Text(
-                                'Gaurav Chaudhary',
+                                'Alex',
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -253,6 +367,11 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: initializeHealth,
+        backgroundColor: const Color(0xFFFF5722),
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 
@@ -292,8 +411,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                   color: const Color(0xFFFF5722).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Text(
-                  'March 28, 2025',
+                child: Text(
+                  '${DateTime.now().toLocal().toString().split(' ')[0]}',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -304,87 +423,102 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             ],
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildProgressItem(
-                icon: Icons.local_fire_department,
-                value: '1,248',
-                label: 'Calories',
-                progress: 0.7,
-                color: const Color(0xFFFF5722),
-              ),
-              _buildProgressItem(
-                icon: Icons.water_drop,
-                value: '4/8',
-                label: 'Water',
-                progress: 0.5,
-                color: Colors.blue,
-              ),
-              _buildProgressItem(
-                icon: Icons.directions_walk,
-                value: '6,540',
-                label: 'Steps',
-                progress: 0.65,
-                color: Colors.green,
-              ),
-            ],
-          ),
+          isLoading 
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF5722)),
+                  ),
+                )
+              : errorMessage.isNotEmpty
+                  ? Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            errorMessage,
+                            style: const TextStyle(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: initializeHealth,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFF5722),
+                            ),
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildProgressItem(
+                          icon: Icons.local_fire_department,
+                          value: totalCalories.toStringAsFixed(0),
+                          label: 'Calories',
+                          progress: totalCalories / _targetCalories,
+                          color: const Color(0xFFFF5722),
+                        ),
+                        _buildProgressItem(
+                          icon: Icons.directions_walk,
+                          value: '${totalDistance.toStringAsFixed(2)} km',
+                          label: 'Distance',
+                          progress: totalDistance / _targetDistance,
+                          color: Colors.blue,
+                        ),
+                        _buildProgressItem(
+                          icon: Icons.directions_walk,
+                          value: totalSteps.toString(),
+                          label: 'Steps',
+                          progress: totalSteps / _targetSteps,
+                          color: Colors.green,
+                        ),
+                      ],
+                    ),
         ],
       ),
     );
   }
 
-  Widget _buildProgressItem({
-    required IconData icon,
-    required String value,
-    required String label,
-    required double progress,
-    required Color color,
-  }) {
+  Widget _buildProgressItem({required IconData icon, required String value, required String label, required double progress, required Color color}) {
+    // Ensure progress is between 0.0 and 1.0
+    final clampedProgress = progress.clamp(0.0, 1.0);
+    
     return Column(
       children: [
-        SizedBox(
-          width: 60,
-          height: 60,
-          child: Stack(
-            children: [
-              Center(
-                child: SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: CircularProgressIndicator(
-                    value: progress,
-                    strokeWidth: 5,
-                    backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation<Color>(color),
-                  ),
-                ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            // Progress indicator
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
+                value: clampedProgress,
+                backgroundColor: Colors.grey.withOpacity(0.2),
+                valueColor: AlwaysStoppedAnimation<Color>(color),
+                strokeWidth: 5,
               ),
-              Center(
-                child: Icon(
-                  icon,
-                  size: 24,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
+            ),
+            // Icon
+            Icon(icon, size: 24, color: color),
+          ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 8),
         Text(
-          value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          label,
+          value, 
           style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
+            fontSize: 16, 
+            fontWeight: FontWeight.bold
+          )
+        ),
+        SizedBox(height: 2),
+        Text(
+          label, 
+          style: TextStyle(
+            fontSize: 12, 
+            color: Colors.grey[600]
+          )
         ),
       ],
     );
@@ -411,9 +545,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         'color': Colors.green,
       },
       {
-        'title': 'Water Tracking',
-        'icon': Icons.water_drop,
-        // 'screen': const WaterTrackingScreen(),
+        'title': 'Walk',
+        'icon': Icons.map,
+        // 'screen': HealthScreen(),
         'color': Colors.blue,
       },
       {

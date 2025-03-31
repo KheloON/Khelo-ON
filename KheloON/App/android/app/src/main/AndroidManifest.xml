@@ -1,20 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.company.athleticon">
 
-     <!-- Permissions -->
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA"/>
-    
-    <!-- Storage Permissions (Only required for Android < 13) -->
-    <!-- Remove if targeting Android 13+ -->
-    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-
-    <!-- Internet Permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <!-- Permissions for Health Connect -->
-    <uses-permission android:name="android.permission.health.CONNECT" />
+    <uses-permission android:name="android.permission.health.CONNECT"/>
+
+ <!-- Write Permissions for Health Connect -->
+    <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
+    <uses-permission android:name="android.permission.health.WRITE_BLOOD_GLUCOSE"/>
+    <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
+    <uses-permission android:name="android.permission.health.WRITE_SPEED"/>
+    <uses-permission android:name="android.permission.health.WRITE_DISTANCE"/>
+    <uses-permission android:name="android.permission.health.WRITE_ACTIVE_CALORIES_BURNED"/>
+    <uses-permission android:name="android.permission.health.WRITE_ACTIVE_TIME"/>
+   
 
     <!-- Read Permissions for Health Connect -->
     <uses-permission android:name="android.permission.health.READ_STEPS"/>
@@ -24,28 +30,25 @@
     <uses-permission android:name="android.permission.health.READ_DISTANCE"/>
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED"/>
     <uses-permission android:name="android.permission.health.READ_ACTIVE_TIME"/>
+   
 
-    <!-- Write Permissions for Health Connect -->
-    <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
-    <uses-permission android:name="android.permission.health.WRITE_BLOOD_GLUCOSE"/>
-    <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
-    <uses-permission android:name="android.permission.health.WRITE_SPEED"/>
-    <uses-permission android:name="android.permission.health.WRITE_DISTANCE"/>
-    <uses-permission android:name="android.permission.health.WRITE_ACTIVE_CALORIES_BURNED"/>
-    <uses-permission android:name="android.permission.health.WRITE_ACTIVE_TIME"/>
 
+   
     <application
         android:usesCleartextTraffic="false"
-        android:label="Athlete"
+        android:label="KheloON"
         android:theme="@style/Theme.Athlete"
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- Correct placement of Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDr0DvNg-9AQg_NdzeHHOWrXVrx6_GdLlc"/>
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
@@ -54,7 +57,7 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"/>
-            
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -73,7 +76,7 @@
         <intent>
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
         </intent>
-        <package android:name="com.google.android.apps.healthdata" />
+        <package android:name="com.google.android.apps.healthdata"/>
     </queries>
 
 </manifest>

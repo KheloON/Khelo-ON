@@ -8,6 +8,7 @@
 import 'dart:io'; // flutter_ignore: dart_io_import.
 import 'package:camera_android_camerax/camera_android_camerax.dart';
 import 'package:flutter_inappwebview_android/flutter_inappwebview_android.dart';
+import 'package:geolocator_android/geolocator_android.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_sign_in_android/google_sign_in_android.dart';
 import 'package:image_picker_android/image_picker_android.dart';
@@ -18,6 +19,7 @@ import 'package:url_launcher_android/url_launcher_android.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:camera_avfoundation/camera_avfoundation.dart';
 import 'package:flutter_inappwebview_ios/flutter_inappwebview_ios.dart';
+import 'package:geolocator_apple/geolocator_apple.dart';
 import 'package:google_maps_flutter_ios/google_maps_flutter_ios.dart';
 import 'package:google_sign_in_ios/google_sign_in_ios.dart';
 import 'package:image_picker_ios/image_picker_ios.dart';
@@ -36,6 +38,7 @@ import 'package:url_launcher_linux/url_launcher_linux.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:file_selector_macos/file_selector_macos.dart';
 import 'package:flutter_inappwebview_macos/flutter_inappwebview_macos.dart';
+import 'package:geolocator_apple/geolocator_apple.dart';
 import 'package:google_sign_in_ios/google_sign_in_ios.dart';
 import 'package:image_picker_macos/image_picker_macos.dart';
 import 'package:path_provider_foundation/path_provider_foundation.dart';
@@ -74,6 +77,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`flutter_inappwebview_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        GeolocatorAndroid.registerWith();
+      } catch (err) {
+        print(
+          '`geolocator_android` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }
@@ -165,6 +177,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`flutter_inappwebview_ios` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        GeolocatorApple.registerWith();
+      } catch (err) {
+        print(
+          '`geolocator_apple` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }
@@ -329,6 +350,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`flutter_inappwebview_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        GeolocatorApple.registerWith();
+      } catch (err) {
+        print(
+          '`geolocator_apple` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }

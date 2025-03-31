@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:athlete/screens/login_screen.dart';
 import 'package:athlete/screens/onboarding_screen.dart';
-import 'package:athlete/screens/health_screen.dart'; // ✅ Import HealthScreen
+import 'package:athlete/screens/dashboard_screen.dart'; // ✅ Import HealthScreen
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:athlete/services/firebase_options.dart';
 import 'package:athlete/screens/main_screen.dart'; 
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,7 +81,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(primarySwatch: Colors.blue),
           home: initialScreen,
           routes: {
-            '/health': (context) => HealthScreen(), // ✅ Added route for HealthScreen
+            '/health': (context) => DashboardScreen(), // ✅ Added route for HealthScreen
           },
         );
       },

@@ -57,6 +57,8 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        manifestPlaceholders = [MAPS_API_KEY: "AIzaSyDr0DvNg-9AQg_NdzeHHOWrXVrx6_GdLlc"]
+
     }
 
     compileOptions {
