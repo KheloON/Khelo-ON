@@ -73,3 +73,8 @@ $RECYCLE.BIN/
 google-services.json
 *.env
 .env
+
+.gradle/
+.dart_tool/
+build/
+
