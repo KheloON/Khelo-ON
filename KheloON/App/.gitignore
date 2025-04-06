@@ -1,10 +1,12 @@
 # /build/
 # **/build/
 # /build
+# Flutter/Dart stuff
+.dart_tool/
+build/
 
 # Flutter/Dart related
 android/.gradle/
-.dart_tool/
 .packages
 .pub-cache/
 build/
