@@ -1,0 +1,73 @@
+# /build/
+# **/build/
+# /build
+
+# Flutter/Dart related
+android/.gradle/
+.dart_tool/
+.packages
+.pub-cache/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.melos_tool/
+
+# IntelliJ related
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# VS Code related
+.vscode/
+
+# Mac related
+.DS_Store
+
+# Android related
+android/.gradle/
+android/captures/
+android/.idea/
+
+# Gradle files
+*.log
+*.bin
+.gradle/
+**/gradle-wrapper.jar
+**/gradlew
+**/gradlew.bat
+
+# Others
+*.class
+*.lock
+*.jar
+*.war
+*.ear
+*.pyc
+*.swp
+*.swo
+*.tmp
+
+# System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Ignore binaries and large files
+*.dill
+*.apk
+*.ipa
+*.keystore
+*.jks
+*.so
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Firebase/Secrets (if applicable)
+google-services.json
+*.env
+.env
