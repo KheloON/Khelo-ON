@@ -3,6 +3,7 @@
 # /build
 
 # Flutter/Dart related
+android/.gradle/
 .dart_tool/
 .packages
 .pub-cache/
