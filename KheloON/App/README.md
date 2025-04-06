@@ -26,7 +26,7 @@ We’re currently inviting athletes and early users to join our closed testing p
 
 ## 📬 Contact
 
-- Email: your-email@example.com  
+- Email: info@khelo-on.com  
 Sports Office: +91 98765-43210
 Location: Sports Complex, Stadium Road
 
