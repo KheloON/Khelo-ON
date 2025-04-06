@@ -45,19 +45,19 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.company.athleticon" // Corrected
+    namespace "com.company.KheloON" // Corrected
 
     compileSdk 35
     ndkVersion "25.1.8937393" // Ensure NDK version matches Flutter requirements
 
     defaultConfig {
-        applicationId "com.company.athleticon"
+        applicationId "com.company.KheloON"
         minSdkVersion 26
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        manifestPlaceholders = [MAPS_API_KEY: "abc"]
+        manifestPlaceholders = [MAPS_API_KEY: "AIzaSyDr0DvNg-9AQg_NdzeHHOWrXVrx6_GdLlc"]
 
     }
 

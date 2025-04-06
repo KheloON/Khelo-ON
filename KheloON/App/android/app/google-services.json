@@ -1,49 +1,49 @@
 {
   "project_info": {
-    "project_number": "527732239961",
-    "project_id": "athleticon-3f65f",
-    "storage_bucket": "athleticon-3f65f.firebasestorage.app"
+    "project_number": "1036369602559",
+    "project_id": "kheloon",
+    "storage_bucket": "kheloon.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:527732239961:android:b1dbfc79fd4eeb8f028b48",
+        "mobilesdk_app_id": "1:1036369602559:android:d7fae7a000d86bbe4de9ca",
         "android_client_info": {
-          "package_name": "com.company.athleticon"
+          "package_name": "com.company.KheloON"
         }
       },
       "oauth_client": [
         {
-          "client_id": "527732239961-2oqreo9nhkrkelcv0lbreo72oj18k4m1.apps.googleusercontent.com",
+          "client_id": "1036369602559-fqnl5q8ca69h40s5ru155eqdfvlk63re.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.company.athleticon",
+            "package_name": "com.company.KheloON",
             "certificate_hash": "f04e488cabbc30cc8bbe3924848915f9e73eae0f"
           }
         },
         {
-          "client_id": "527732239961-54ikra98ntbcdlf48h889i50c27kil3k.apps.googleusercontent.com",
+          "client_id": "1036369602559-qgf8guil5bvu5689cjsf0dq4eumpbbcr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.company.athleticon",
+            "package_name": "com.company.KheloON",
             "certificate_hash": "520f2d7e7a5753b8b2d1b761fc5ac1c3ffed9cd1"
           }
         },
         {
-          "client_id": "527732239961-mhv66eilhu0jtav6pue05ca30qt39ck5.apps.googleusercontent.com",
+          "client_id": "1036369602559-4s0sg2jgmp7ocn3chp6c19mtrhkp2b8f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAAXu8nu6ll1Li2V3gO9Q59nKm7e1vmN5s"
+          "current_key": "AIzaSyDjZ5MftVW0LBHsu--_wd1rijO4jm8252o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "527732239961-mhv66eilhu0jtav6pue05ca30qt39ck5.apps.googleusercontent.com",
+              "client_id": "1036369602559-0uu4o2ffle9e5763nsn2dtqbfop58n63.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -16,7 +16,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  Offset _chatbotPosition = const Offset(300, 500); // Initial position
+  Offset _chatbotPosition = const Offset(700, 900); // Initial position
 
   final List<Widget> _screens = [
     const HomeScreen(),

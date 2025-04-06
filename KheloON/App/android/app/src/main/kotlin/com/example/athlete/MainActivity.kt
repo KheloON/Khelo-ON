@@ -1,4 +1,4 @@
-package com.company.athleticon
+package com.company.KheloON
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

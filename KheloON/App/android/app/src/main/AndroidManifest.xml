@@ -1,18 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.company.athleticon">
+    package="com.company.KheloON">
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
-      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+    
+    <!-- Required Permission for Health Connect -->
+    <uses-permission android:name="android.permission.ACCESS_HEALTH_CONNECT" />
 
-    <!-- Permissions for Health Connect -->
-    <uses-permission android:name="android.permission.health.CONNECT"/>
-
- <!-- Write Permissions for Health Connect -->
+     <!-- Write Permissions for Health Connect -->
     <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
     <uses-permission android:name="android.permission.health.WRITE_BLOOD_GLUCOSE"/>
     <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
@@ -30,17 +31,14 @@
     <uses-permission android:name="android.permission.health.READ_DISTANCE"/>
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED"/>
     <uses-permission android:name="android.permission.health.READ_ACTIVE_TIME"/>
-   
 
-
-   
     <application
         android:usesCleartextTraffic="false"
         android:label="KheloON"
         android:theme="@style/Theme.Athlete"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- Correct placement of Google Maps API Key -->
+        <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDr0DvNg-9AQg_NdzeHHOWrXVrx6_GdLlc"/>
@@ -68,15 +66,14 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2"/>
-
     </application>
 
     <!-- Queries to check for Health Connect availability -->
-    <queries>
-        <intent>
-            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
-        </intent>
-        <package android:name="com.google.android.apps.healthdata"/>
-    </queries>
+   <queries>
+    <intent>
+        <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
+    </intent>
+    <package android:name="com.google.android.apps.healthdata"/>
+</queries>
 
 </manifest>

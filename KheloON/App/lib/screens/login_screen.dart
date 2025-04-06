@@ -7,6 +7,7 @@ import 'package:athlete/screens/create_account_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lottie/lottie.dart';
 
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
-    clientId: "527732239961-mhv66eilhu0jtav6pue05ca30qt39ck5.apps.googleusercontent.com",
+    serverClientId: "1036369602559-4s0sg2jgmp7ocn3chp6c19mtrhkp2b8f.apps.googleusercontent.com",
     scopes: ['email'],
   );
 

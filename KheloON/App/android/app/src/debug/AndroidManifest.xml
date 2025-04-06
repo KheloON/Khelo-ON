@@ -1,12 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.company.athleticon">
+    package="com.company.KheloON">
 
     <!-- Permissions for Health Connect API -->
-    <uses-permission android:name="android.permission.health.READ_STEPS"/>
-<uses-permission android:name="android.permission.health.WRITE_STEPS"/>
-<uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
-<uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
+  <uses-permission android:name="android.permission.health.CONNECT"/>
+
+    <!-- Write Permissions for Health Connect -->
+    <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
+    <uses-permission android:name="android.permission.health.WRITE_DISTANCE"/>
+    <uses-permission android:name="android.permission.health.WRITE_CALORIES_EXPENDED"/>
+
+    <!-- Read Permissions for Health Connect -->
+  <uses-permission android:name="android.permission.health.READ_STEPS"/>
+<uses-permission android:name="android.permission.health.READ_DISTANCE"/>
+<uses-permission android:name="android.permission.health.READ_CALORIES_EXPENDED"/>
 <uses-permission android:name="android.permission.BODY_SENSORS"/>
 <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
 

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 
@@ -6,27 +5,47 @@ class HealthConnectService {
   static final Health _health = Health();
 
   /// Configure Health API
-  static Future<void> configureHealth() async {
+  static Future<bool> configureHealth() async {
     try {
       await _health.configure();
       debugPrint("Health API configured successfully.");
+      return true;
     } catch (e) {
       debugPrint("Error configuring Health API: $e");
+      return false;
+    }
+  }
+
+  /// Get the health data types we want to access
+  static List<HealthDataType> get healthTypes => [
+    HealthDataType.STEPS,
+    HealthDataType.DISTANCE_DELTA,
+    HealthDataType.ACTIVE_ENERGY_BURNED,
+  ];
+
+  /// Get the health permissions for read/write access
+  static List<HealthDataAccess> get healthPermissions => [
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+  ];
+
+  /// Check if we have permissions
+  static Future<bool> hasPermissions() async {
+    try {
+      bool granted = await _health.hasPermissions(healthTypes, permissions: healthPermissions) ?? false;
+      debugPrint(granted ? "Health Connect permissions already granted." : "Health Connect permissions NOT granted.");
+      return granted;
+    } catch (e) {
+      debugPrint("Permission check failed: $e");
+      return false;
     }
   }
 
   /// Request permissions for Health data access
   static Future<bool> requestPermissions() async {
     try {
-      final types = [
-        HealthDataType.STEPS,
-        HealthDataType.BLOOD_GLUCOSE,
-        HealthDataType.HEART_RATE,
-        HealthDataType.DISTANCE_DELTA,
-        HealthDataType.ACTIVE_ENERGY_BURNED,
-      ];
-
-      bool granted = await _health.requestAuthorization(types);
+      bool granted = await _health.requestAuthorization(healthTypes, permissions: healthPermissions);
       debugPrint(granted ? "Health Connect permissions granted!" : "Health Connect permissions were NOT granted!");
       return granted;
     } catch (e) {
@@ -35,75 +54,40 @@ class HealthConnectService {
     }
   }
 
-  /// Fetch health data from the past 24 hours
-  static Future<List<HealthDataPoint>> fetchHealthData({required DateTime startTime, required DateTime endTime}) async {
+  /// Fetch health data for a specific time range
+  static Future<List<HealthDataPoint>> fetchHealthData({
+    required DateTime startTime, 
+    required DateTime endTime
+  }) async {
     try {
-      DateTime now = DateTime.now();
-      DateTime yesterday = now.subtract(const Duration(days: 1));
-
-      List<HealthDataType> types = [
-        HealthDataType.STEPS,
-        HealthDataType.BLOOD_GLUCOSE,
-        HealthDataType.HEART_RATE,
-        HealthDataType.DISTANCE_DELTA,
-        HealthDataType.ACTIVE_ENERGY_BURNED,
-      ];
-
       List<HealthDataPoint> healthData = await _health.getHealthDataFromTypes(
-        startTime: yesterday,
-        endTime: now,
-        types: types,
+        startTime: startTime,
+        endTime: endTime,
+        types: healthTypes,
       );
+      
       debugPrint("Fetched ${healthData.length} health data points.");
+      
+      // Log some details about the data we received
+      if (healthData.isNotEmpty) {
+        for (var type in healthTypes) {
+          var pointsOfType = healthData.where((point) => point.type == type).toList();
+          debugPrint("$type: ${pointsOfType.length} data points");
+          
+          if (pointsOfType.isNotEmpty) {
+            for (var point in pointsOfType) {
+              if (point.value is NumericHealthValue) {
+                debugPrint("  - Value: ${(point.value as NumericHealthValue).numericValue}");
+              }
+            }
+          }
+        }
+      }
+      
       return healthData;
     } catch (e) {
       debugPrint("Error while fetching health data: $e");
-      return [];
-    }
-  }
-
-  /// Write multiple health data points
-  static Future<bool> writeHealthData({required HealthDataType type, required double value}) async {
-    try {
-      DateTime now = DateTime.now();
-      bool success = await _health.writeHealthData(
-        value: value,
-        type: type,
-        startTime: now,
-        endTime: now,
-      );
-      debugPrint(success ? "$type data written successfully!" : "Failed to write $type data.");
-      return success;
-    } catch (e) {
-      debugPrint("Error while writing $type data: $e");
-      return false;
-    }
-  }
-
-  /// Write multiple health metrics in a batch
-  static Future<bool> writeAllHealthData() async {
-    List<bool> results = await Future.wait([
-      writeHealthData(type: HealthDataType.STEPS, value: 10),
-      writeHealthData(type: HealthDataType.BLOOD_GLUCOSE, value: 3.1),
-      writeHealthData(type: HealthDataType.HEART_RATE, value: 72),
-      writeHealthData(type: HealthDataType.DISTANCE_DELTA, value: 500),
-      writeHealthData(type: HealthDataType.ACTIVE_ENERGY_BURNED, value: 100),
-    ]);
-
-    return results.every((success) => success);
-  }
-
-  /// Get total steps for today
-  static Future<int?> getTodaySteps() async {
-    try {
-      DateTime now = DateTime.now();
-      DateTime midnight = DateTime(now.year, now.month, now.day);
-      int? steps = await _health.getTotalStepsInInterval(midnight, now);
-      debugPrint("Total steps today: ${steps ?? 0}");
-      return steps;
-    } catch (e) {
-      debugPrint("Error while getting today's steps: $e");
-      return null;
+      throw Exception("Failed to fetch health data: $e");
     }
   }
 }

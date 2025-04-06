@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
+// import 'dart:io' show Platform;
 import 'package:health/health.dart';
 import 'Dashboardscreens/search_screen.dart';
 import 'Dashboardscreens/my_calories_screen.dart';
 import 'Dashboardscreens/plan_macros_screen.dart';
+import 'Dashboardscreens/calendar_screen.dart';
 // import 'health_screen.dart';
 import 'package:athlete/services/health_connect_service.dart';
 // import 'dart:convert';
@@ -76,70 +80,95 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   }
 
   // Initialize health data
-  Future<void> initializeHealth() async {
-    try {
+ Future<void> initializeHealth() async {
+  try {
+    setState(() {
+      isLoading = true;
+      errorMessage = '';
+    });
+    
+    // Configure health service
+    bool configured = await HealthConnectService.configureHealth();
+    if (!configured) {
       setState(() {
-        isLoading = true;
+        errorMessage = 'Failed to configure Health Connect';
+        isLoading = false;
+      });
+      return;
+    }
+
+    // Request permissions
+    bool permissionsGranted = await HealthConnectService.requestPermissions();
+
+    if (permissionsGranted) {
+      // Fetch health data
+      await fetchHealthData();
+    } else {
+      setState(() {
+        errorMessage = 'Health Connect permissions not granted';
+        isLoading = false;
+      });
+    }
+  } catch (e) {
+    setState(() {
+      errorMessage = 'Error initializing health data: $e';
+      isLoading = false;
+    });
+    debugPrint("Error initializing health: $e");
+  }
+}
+
+// Update the fetchHealthData method with better error handling
+Future<void> fetchHealthData() async {
+  try {
+    // Get today's date range
+    final now = DateTime.now();
+    final startOfDay = DateTime(now.year, now.month, now.day);
+    
+    debugPrint("Fetching health data from ${startOfDay.toIso8601String()} to ${now.toIso8601String()}");
+    
+    // Fetch health data for today
+    List<HealthDataPoint> data = await HealthConnectService.fetchHealthData(
+      startTime: startOfDay,
+      endTime: now,
+    );
+
+    if (mounted) {
+      // Check if we actually got data
+      if (data.isEmpty) {
+        debugPrint("No health data found for today");
+        setState(() {
+          errorMessage = 'No health data available for today';
+          isLoading = false;
+        });
+        return;
+      }
+      
+      // Calculate daily totals
+      calculateDailyTotals(data);
+      
+      setState(() {
+        healthData = data;
+        isLoading = false;
+        // Clear error message since we successfully got data
         errorMessage = '';
       });
       
-      // Configure health service
-      await HealthConnectService.configureHealth();
-
-      // Request permissions
-      bool permissionsGranted = await HealthConnectService.requestPermissions();
-
-      if (permissionsGranted) {
-        // Fetch health data
-        await fetchHealthData();
-      } else {
-        setState(() {
-          errorMessage = 'Health Connect permissions not granted';
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Error initializing health data: $e';
-        isLoading = false;
-      });
-      debugPrint("Error initializing health: $e");
+      // Debug log the calculated totals
+      debugPrint("Updated UI with - Calories: $totalCalories, Distance: $totalDistance km, Steps: $totalSteps");
     }
-  }
-
-  // Fetch health data
-  Future<void> fetchHealthData() async {
-    try {
-      // Get today's date range
-      final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
-      
-      // Fetch health data for today
-      List<HealthDataPoint> data = await HealthConnectService.fetchHealthData(
-        startTime: startOfDay,
-        endTime: now,
-      );
-
-      if (mounted) {
-        // Calculate daily totals
-        calculateDailyTotals(data);
-        
-        setState(() {
-          healthData = data;
-          isLoading = false;
-        });
-      }
-    } catch (e) {
+  } catch (e) {
+    if (mounted) {
       setState(() {
         errorMessage = 'Error fetching health data: $e';
         isLoading = false;
       });
-      debugPrint("Error fetching health data: $e");
     }
+    debugPrint("Error fetching health data: $e");
   }
+}
 
-  // Calculate daily totals from health data points
-  void calculateDailyTotals(List<HealthDataPoint> data) {
+ void calculateDailyTotals(List<HealthDataPoint> data) {
     double calories = 0.0;
     double distance = 0.0;
     int steps = 0;
@@ -250,9 +279,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                             ),
                             child: const CircleAvatar(
                               radius: 35,
-                              backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80',
-                              ),
+                              backgroundImage: AssetImage("lib/assets/profile.png"),
                             ),
                           ),
                         ),
@@ -375,111 +402,225 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     );
   }
 
-  Widget _buildDailyProgress() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Today\'s Progress',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF5722).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  '${DateTime.now().toLocal().toString().split(' ')[0]}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFFFF5722),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          isLoading 
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF5722)),
-                  ),
-                )
-              : errorMessage.isNotEmpty
-                  ? Center(
-                      child: Column(
-                        children: [
-                          Text(
-                            errorMessage,
-                            style: const TextStyle(color: Colors.red),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: initializeHealth,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFF5722),
-                            ),
-                            child: const Text('Retry'),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildProgressItem(
-                          icon: Icons.local_fire_department,
-                          value: totalCalories.toStringAsFixed(0),
-                          label: 'Calories',
-                          progress: totalCalories / _targetCalories,
-                          color: const Color(0xFFFF5722),
+ Future<bool> requestBasicPermissions() async {
+  // Request basic device permissions
+  var statuses = await [
+    Permission.activityRecognition,
+    Permission.location,
+    Permission.sensors,
+  ].request();
+
+  // Check if basic permissions are granted
+  bool basicPermissionsGranted = statuses.values.every((status) => status.isGranted);
+  
+  if (!basicPermissionsGranted) {
+    return false;
+  }
+  
+  // Now request Health Connect permissions
+  try {
+    bool healthPermissionsGranted = await HealthConnectService.requestPermissions();
+    return healthPermissionsGranted;
+  } catch (e) {
+    debugPrint("Error requesting Health Connect permissions: $e");
+    return false;
+  }
+}
+
+// Now let's update the error widget in _buildDailyProgress() method
+Widget _buildErrorWithRetry() {
+  return Center(
+    child: Column(
+      children: [
+        Text(
+          errorMessage,
+          style: const TextStyle(color: Colors.red),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 10),
+        ElevatedButton(
+          onPressed: () async {
+            setState(() {
+              isLoading = true;
+              errorMessage = '';
+            });
+            
+            try {
+              // First, check if Health Connect is properly configured
+              bool configured = await HealthConnectService.configureHealth();
+              if (!configured) {
+                setState(() {
+                  isLoading = false;
+                  errorMessage = 'Failed to configure Health Connect';
+                });
+                return;
+              }
+              
+              // Force a new permission request
+              bool granted = await HealthConnectService.requestPermissions();
+              
+              if (granted) {
+                // If permissions granted, fetch health data
+                await fetchHealthData();
+              } else {
+                // If permissions still not granted, show dialog
+                if (mounted) {
+                  setState(() {
+                    isLoading = false;
+                    errorMessage = 'Health Connect permissions required';
+                  });
+                  
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Permissions Required'),
+                      content: const Text('Health Connect permissions are needed to track your fitness data. Would you like to open Health Connect settings?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancel'),
                         ),
-                        _buildProgressItem(
-                          icon: Icons.directions_walk,
-                          value: '${totalDistance.toStringAsFixed(2)} km',
-                          label: 'Distance',
-                          progress: totalDistance / _targetDistance,
-                          color: Colors.blue,
-                        ),
-                        _buildProgressItem(
-                          icon: Icons.directions_walk,
-                          value: totalSteps.toString(),
-                          label: 'Steps',
-                          progress: totalSteps / _targetSteps,
-                          color: Colors.green,
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            openHealthConnectSettings();
+                          },
+                          child: const Text('Open Settings'),
                         ),
                       ],
                     ),
-        ],
-      ),
-    );
+                  );
+                }
+              }
+            } catch (e) {
+              if (mounted) {
+                setState(() {
+                  isLoading = false;
+                  errorMessage = 'Error: $e';
+                });
+              }
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFFF5722),
+          ),
+          child: const Text('Retry'),
+        ),
+      ],
+    ),
+  );
+}
+// Update the openHealthConnectSettings method to properly open Health Connect
+Future<void> openHealthConnectSettings() async {
+  try {
+    // Try to open Health Connect directly
+    const healthConnectPackage = 'com.google.android.apps.healthdata';
+    final Uri healthConnectUri = Uri.parse('package:$healthConnectPackage');
+    
+    if (await canLaunchUrl(healthConnectUri)) {
+      await launchUrl(healthConnectUri);
+    } else {
+      // If direct opening fails, try to open Play Store
+      final Uri playStoreUri = Uri.parse('market://details?id=$healthConnectPackage');
+      if (await canLaunchUrl(playStoreUri)) {
+        await launchUrl(playStoreUri);
+      } else {
+        // If Play Store fails, open web URL
+        await launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=$healthConnectPackage'));
+      }
+    }
+  } catch (e) {
+    debugPrint("Error opening Health Connect settings: $e");
   }
+}
 
+// Now update the _buildDailyProgress method to use our new error widget
+Widget _buildDailyProgress() {
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20),
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 1,
+          blurRadius: 10,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Today\'s Progress',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[800],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF5722).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                '${DateTime.now().toLocal().toString().split(' ')[0]}',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFFFF5722),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        isLoading 
+            ? const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF5722)),
+                ),
+              )
+            : errorMessage.isNotEmpty
+                ? _buildErrorWithRetry()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildProgressItem(
+                        icon: Icons.local_fire_department,
+                        value: totalCalories.toStringAsFixed(0),
+                        label: 'Calories',
+                        progress: totalCalories / _targetCalories,
+                        color: const Color(0xFFFF5722),
+                      ),
+                      _buildProgressItem(
+                        icon: Icons.directions_walk,
+                        value: '${totalDistance.toStringAsFixed(2)} km',
+                        label: 'Distance',
+                        progress: totalDistance / _targetDistance,
+                        color: Colors.blue,
+                      ),
+                      _buildProgressItem(
+                        icon: Icons.directions_walk,
+                        value: totalSteps.toString(),
+                        label: 'Steps',
+                        progress: totalSteps / _targetSteps,
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
+      ],
+    ),
+  );
+}
   Widget _buildProgressItem({required IconData icon, required String value, required String label, required double progress, required Color color}) {
     // Ensure progress is between 0.0 and 1.0
     final clampedProgress = progress.clamp(0.0, 1.0);
@@ -545,9 +686,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         'color': Colors.green,
       },
       {
-        'title': 'Walk',
-        'icon': Icons.map,
-        // 'screen': HealthScreen(),
+        'title': 'Calendar',
+        'icon': Icons.calendar_month,
+        'screen': CalendarScreen(),
         'color': Colors.blue,
       },
       {

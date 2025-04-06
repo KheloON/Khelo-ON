@@ -290,6 +290,24 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "firebase_storage",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage-12.4.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "firebase_storage_platform_interface",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage_platform_interface-5.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "firebase_storage_web",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage_web-3.10.11",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "fixnum",
       "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.1",
       "packageUri": "lib/",
@@ -1064,6 +1082,24 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "syncfusion_flutter_calendar",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/syncfusion_flutter_calendar-29.1.35",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "syncfusion_flutter_core",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/syncfusion_flutter_core-29.1.35",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "syncfusion_flutter_datepicker",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/syncfusion_flutter_datepicker-29.1.35",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "synchronized",
       "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/synchronized-3.3.0+3",
       "packageUri": "lib/",
@@ -1086,6 +1122,12 @@
       "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.3",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "timezone",
+      "rootUri": "file:///C:/Users/Mayank%20Singh%20Tomar/AppData/Local/Pub/Cache/hosted/pub.dev/timezone-0.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "typed_data",
@@ -1280,7 +1322,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2025-03-31T18:03:17.484070Z",
+  "generated": "2025-04-05T17:31:11.552447Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///C:/flutter",

@@ -1,6 +1,7 @@
 # Keep all Play Core and Health Connect classes
 -keep class com.google.android.play.** { *; }
 -keep class androidx.health.connect.** { *; }
+-keep class com.google.android.gms.fitness.** { *; }
 
 # Keep OkHttp classes
 -keep class com.squareup.okhttp.** { *; }

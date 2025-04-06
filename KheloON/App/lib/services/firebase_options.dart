@@ -16,35 +16,35 @@ class DefaultFirebaseOptions {
     }
   }
 
-  // Web platform options
+  // Web platform options (Updated for KheloON)
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: "AIzaSyB-jdWE5gDTKjPtMYoe9FZiODksr343p6w",
-    authDomain: "athleticon-3f65f.firebaseapp.com",
-    projectId: "athleticon-3f65f",
-    storageBucket: "athleticon-3f65f.appspot.com",
-    messagingSenderId: "527732239961",
-    appId: "1:527732239961:web:4347809681f50250028b48",
-    measurementId: "G-4396RMQKY9",
+    apiKey: "AIzaSyA7Uo5kRkkBwG8Qx4XXd0LhV5BjJciyqS0",
+    authDomain: "kheloon.firebaseapp.com",
+    projectId: "kheloon",
+    storageBucket: "kheloon.firebasestorage.app", // this looks like a typo, double-check below
+    messagingSenderId: "1036369602559",
+    appId: "1:1036369602559:web:ae3103d3a8697e944de9ca",
+    measurementId: null, // add if needed later
   );
 
-  // Android platform options
+  // Android platform options (You’ll still need to update these based on google-services.json)
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: "AIzaSyAAXu8nu6ll1Li2V3gO9Q59nKm7e1vmN5s",
-    authDomain: "athleticon-3f65f.firebaseapp.com",
-    projectId: "athleticon-3f65f",
-    storageBucket: "athleticon-3f65f.appspot.com",
-    messagingSenderId: "527732239961",
-    appId: "1:527732239961:android:b1dbfc79fd4eeb8f028b48",
+    apiKey: "AIzaSyDjZ5MftVW0LBHsu--_wd1rijO4jm8252o",
+    authDomain: "kheloon.firebaseapp.com",
+    projectId: "kheloon",
+    storageBucket: "kheloon.appspot.com",
+    messagingSenderId: "1036369602559",
+    appId: "1:1036369602559:android:d7fae7a000d86bbe4de9ca",
   );
 
-  // iOS platform options
+  // iOS platform options (Update if using iOS)
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: "AIzaSyAAXu8nu6ll1Li2V3gO9Q59nKm7e1vmN5s",
-    authDomain: "athleticon-3f65f.firebaseapp.com",
-    projectId: "athleticon-3f65f",
-    storageBucket: "athleticon-3f65f.appspot.com",
-    messagingSenderId: "527732239961",
-    appId: "1:527732239961:ios:b1dbfc79fd4eeb8f028b48",
-    iosBundleId: "com.company.athleticon",
+    apiKey: "AIzaSyDjZ5MftVW0LBHsu--_wd1rijO4jm8252o",
+    authDomain: "kheloon.firebaseapp.com",
+    projectId: "kheloon",
+    storageBucket: "kheloon.appspot.com",
+    messagingSenderId: "1036369602559",
+   appId: "1:1036369602559:web:ae3103d3a8697e944de9ca",
+    iosBundleId: "com.company.kheloon",
   );
 }

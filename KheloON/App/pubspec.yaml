@@ -82,6 +82,8 @@ dependencies:
   table_calendar:
   pinput:
   pedometer:
+  syncfusion_flutter_calendar:
+  firebase_storage:
 
 flutter_icons:
   android: true

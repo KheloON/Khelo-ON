@@ -16,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   final ScrollController _scrollController = ScrollController();
+  // ignore: unused_field
   double _scrollOffset = 0;
 
   @override
@@ -149,9 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
                             child: CircleAvatar(
                               radius: 48,
-                              backgroundImage: const NetworkImage(
-                                'https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80',
-                              ),
+                               backgroundImage: AssetImage("lib/assets/profile.png"),
                             ),
                           ),
                         ),
